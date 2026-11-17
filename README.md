@@ -4,10 +4,10 @@ Protótipos navegáveis de UX/UI para apresentação a clientes, publicados pelo
 Não são os sites oficiais dos clientes e não são indexados (robots.txt + meta noindex).
 
 ## Como publicar um novo protótipo
-1. Crie uma pasta com o nome do cliente em minúsculas, sem acento (ex.: `nomedocliente/`).
+1. Crie uma pasta com o nome do cliente em minúsculas, sem acento, palavras separadas por hífen (ex.: `casa-dos-brindes/`).
 2. Coloque o protótipo como `index.html` dentro da pasta (arquivo único, com imagens e fontes embutidas).
 3. Faça commit e push na branch `main`. Em 1 a 2 minutos o link fica no ar:
-   `https://<conta>.github.io/<repositório>/nomedocliente/`
+   `https://m2z-clientes.github.io/m2ztech/nomedocliente/`
 
 ## Configuração do GitHub Pages (uma vez)
 Settings → Pages → Build and deployment → Source: *Deploy from a branch* → Branch: `main` / `(root)`.
