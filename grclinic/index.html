@@ -265,6 +265,68 @@
 }
 
 /* =========================================================
+   MOVIMENTO · elegante, lento e com propósito
+   ========================================================= */
+@keyframes up{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes kb{from{transform:scale(1.09)}to{transform:scale(1)}}
+@keyframes draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes mq{to{transform:translateX(-50%)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pagein{from{opacity:0}to{opacity:1}}
+/* entrada da página */
+.site.play #main{animation:pagein .6s ease both}
+/* hero: texto em cascata, foto com zoom lento */
+.site.play .hero .h-copy>*,.site.play .lp-hero .two>div:first-child>*{animation:up 1s cubic-bezier(.2,.7,.2,1) both}
+.site.play .hero .h-copy>:nth-child(2),.site.play .lp-hero .two>div:first-child>:nth-child(2){animation-delay:.12s}
+.site.play .hero .h-copy>:nth-child(3),.site.play .lp-hero .two>div:first-child>:nth-child(3){animation-delay:.26s}
+.site.play .hero .h-copy>:nth-child(4),.site.play .lp-hero .two>div:first-child>:nth-child(4){animation-delay:.4s}
+.site.play .hero .h-copy>:nth-child(5),.site.play .lp-hero .two>div:first-child>:nth-child(5){animation-delay:.54s}
+.site.play .hero-media img{animation:kb 2.8s cubic-bezier(.2,.7,.2,1) both;transform-origin:20% 40%}
+.hero-media img,.dra-img img,.lp-img img{translate:0 var(--py,0px);transition:translate .2s linear}
+/* sublinhado dourado que se desenha sob a palavra em itálico */
+.site h1 em{position:relative;display:inline-block}
+.site h1 em::after{content:"";position:absolute;left:2%;right:2%;bottom:.04em;height:1px;background:var(--gold);transform-origin:left}
+.site.play h1 em::after{animation:draw 1.2s 1s cubic-bezier(.6,0,.2,1) both}
+/* linha do kicker se desenha ao entrar na tela */
+.kicker::before{transform-origin:left;transition:transform .9s cubic-bezier(.6,0,.2,1) .15s}
+.rv:not(.in) .kicker::before,.rv.kicker:not(.in)::before{transform:scaleX(0)}
+/* revelação das fotos: cortina + zoom */
+.dra-img.rv,.lp-img{clip-path:inset(0 0 0 0);transition:clip-path 1.3s cubic-bezier(.7,0,.2,1),opacity .6s}
+.dra-img.rv:not(.in){clip-path:inset(0 0 100% 0);opacity:1;transform:none}
+.dra-img img,.lp-img img{transition:scale 1.6s cubic-bezier(.2,.7,.2,1),translate .2s linear}
+.dra-img.rv:not(.in) img{scale:1.15}
+.site.play .lp-img{animation:up 1.1s .3s cubic-bezier(.2,.7,.2,1) both}
+/* faixa de valores em movimento contínuo */
+.marquee{overflow:hidden;border-block:1px solid var(--line);background:var(--bg);padding:22px 0}
+.mq-track{display:flex;width:max-content;align-items:center;gap:36px;animation:mq 38s linear infinite}
+.marquee:hover .mq-track{animation-play-state:paused}
+.mq-track span{font:italic 400 26px/1 var(--f-title);color:var(--ink-2);white-space:nowrap}
+.mq-track i{font-style:normal;color:var(--gold);font-size:14px}
+/* microinterações */
+.btn{position:relative;overflow:hidden;isolation:isolate}
+.btn-primary::after,.btn-light::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.22) 50%,transparent 70%);transform:translateX(-120%);transition:transform .8s ease}
+.btn-primary:hover::after,.btn-light:hover::after{transform:translateX(120%)}
+.steps li,.pilar,.dor,.res{transition:transform .45s cubic-bezier(.2,.7,.2,1),border-color .3s,box-shadow .45s,opacity .6s}
+.steps li:hover,.dor:hover{transform:translateY(-6px);border-color:var(--gold);box-shadow:0 22px 50px rgba(43,35,30,.12)}
+.yf .steps li:hover{box-shadow:0 22px 50px rgba(0,0,0,.35)}
+.steps li:hover .ico{transform:scale(1.12) rotate(-6deg)} .steps .ico{transition:transform .45s}
+.pilar:hover .ico{transform:translateY(-4px)} .pilar .ico{transition:transform .45s}
+.results.open .res{animation:up .9s cubic-bezier(.2,.7,.2,1) both} .results.open .res:nth-child(2){animation-delay:.15s}
+.res img{transition:transform 1.2s cubic-bezier(.2,.7,.2,1)} .res:hover img{transform:scale(1.04)}
+.link-arrow{transition:gap .3s,border-color .3s}
+.nav a{background:linear-gradient(var(--gold),var(--gold)) left bottom/0 1px no-repeat;border-bottom:0;transition:background-size .4s,color .3s}
+.nav a:hover,.nav a.active{background-size:100% 1px}
+.faq details[open] p{animation:up .5s cubic-bezier(.2,.7,.2,1) both}
+.yf::after{content:"";position:absolute;left:-120px;bottom:-220px;width:420px;height:420px;border:1px dashed rgba(210,180,138,.18);border-radius:50%;animation:spin 90s linear infinite}
+.yf::before{animation:spin 120s linear infinite reverse}
+.wa-float{animation:up .8s 1.4s both} .wa-float:hover{transform:scale(1.06)}
+.hdr{transition:background .4s,border-color .4s,box-shadow .4s} .hdr.scrolled{box-shadow:0 10px 30px rgba(43,35,30,.06)}
+/* acessibilidade e prints: sem movimento */
+@media (prefers-reduced-motion:reduce){.mq-track,.yf::before,.yf::after{animation:none}.dra-img.rv,.dra-img img{clip-path:none!important;scale:1!important}}
+html.capture .site *,html.capture .site *::before,html.capture .site *::after{animation-duration:0s!important;animation-delay:0s!important;transition:none!important}
+html.capture .dra-img.rv{clip-path:none} html.capture .dra-img img{scale:1}
+
+/* =========================================================
    PALCO, APARELHO E CAMADA DE APRESENTAÇÃO
    ========================================================= */
 html,body{margin:0;height:100%;background:#E7E7E3;font-family:'Manrope',system-ui,sans-serif}
@@ -621,6 +683,7 @@ P.home = () => `
       <ul class="h-proof"><li>${ic('estrela')} Criadora do protocolo Young Face</li><li>${ic('escudo')} ${CONFIG.registro}</li></ul>
     </div></div>
   </section>
+  <div class="marquee" aria-hidden="true"><div class="mq-track">${Array(2).fill(['Naturalidade','Sofisticação','Um plano para o seu rosto','Protocolo Young Face','Acompanhamento']).flat().map(t=>`<span>${t}</span><i>✦</i>`).join('')}</div></div>
 
   <section class="section" id="clinica" data-pin="tese"><div class="container two">
     <div class="rv">${kicker('A GR Clinic')}<h2 class="h2">Não é um procedimento. É um plano para o seu rosto.</h2></div>
@@ -812,7 +875,12 @@ function bind(site, r){
   const hdr = $('#hdr', site);
   SCROLLER.onscroll = window.onscroll = () => { const y = document.documentElement.classList.contains('capture') ? scrollY : SCROLLER.scrollTop; hdr?.classList.toggle('scrolled', y > 30); };
   const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } }), { root: document.documentElement.classList.contains('capture') ? null : SCROLLER, rootMargin:'0px 0px -6% 0px' });
-  $$('.rv', site).forEach(el => io.observe(el));
+  $$('.rv', site).forEach(el => { const sib = [...el.parentElement.children].filter(c => c.classList.contains('rv')); el.style.transitionDelay = (sib.indexOf(el) * 90) + 'ms'; io.observe(el); });
+  /* parallax suave nas fotos (desligado com movimento reduzido e nos prints) */
+  const par = $$('.hero-media img, .dra-img img, .lp-img img', site);
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.classList.contains('capture');
+  const onPar = () => { if (calm) return; const vh = SCROLLER.clientHeight; par.forEach(im => { const r = im.parentElement.getBoundingClientRect(), base = SCROLLER.getBoundingClientRect().top; const c = (r.top - base + r.height / 2 - vh / 2) / vh; im.style.setProperty('--py', (c * -28).toFixed(1) + 'px'); }); };
+  SCROLLER.addEventListener('scroll', () => requestAnimationFrame(onPar), { passive: true }); onPar();
   $$('[data-form]', site).forEach(bindForm);
   $$('[data-mask]', site).forEach(i => i.addEventListener('input', () => { let d = i.value.replace(/\D/g,'').slice(0,11); i.value = d.length > 10 ? `(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}` : d.length > 2 ? `(${d.slice(0,2)}) ${d.slice(2)}` : d; }));
 }
@@ -1027,7 +1095,7 @@ const Proto = (() => {
       <p>Site institucional com a home em âncoras e a landing page do protocolo Young Face, pronta para o tráfego do Google e da Meta.</p>
       <button class="ds-btn p intro-go">Navegar no novo site →</button><small>Protótipo navegável · M2Z Creative Tech · Catalisti Holding</small></div>`;
     document.body.appendChild(i);
-    const go = () => { i.classList.add('out'); setTimeout(() => i.remove(), 350); try { sessionStorage.setItem('gr-intro','1'); } catch(e){} };
+    const go = () => { i.classList.add('out'); $('#site').classList.add('play'); setTimeout(() => i.remove(), 350); try { sessionStorage.setItem('gr-intro','1'); } catch(e){} };
     $('.intro-go', i).addEventListener('click', go); $('.intro-go', i).focus();
     i.addEventListener('keydown', e => { if (e.key === 'Escape' || e.key === 'Enter') go(); });
   }
@@ -1043,7 +1111,7 @@ const Proto = (() => {
     if (k === 'h') toggleHide(); else if (k === 'p') togglePins(); else if (k === 'm') openModal('mapa'); else if (k === 'w') toggleWF();
     else if (k === '1') setDevice('desktop'); else if (k === '2') setDevice('tablet'); else if (k === '3') setDevice('mobile');
   }
-  function init(){ bar(); intro(); setDevice('desktop'); addEventListener('resize', fit); addEventListener('keydown', keys); addEventListener('resize', () => { if (state.pins) placePins(); }); }
+  function init(){ bar(); intro(); if (!document.querySelector('.intro')) $('#site').classList.add('play'); setDevice('desktop'); addEventListener('resize', fit); addEventListener('keydown', keys); addEventListener('resize', () => { if (state.pins) placePins(); }); }
   return { init, onRoute, setDevice, setDir, toggleWF, togglePins, openModal, closeModal };
 })();
 
