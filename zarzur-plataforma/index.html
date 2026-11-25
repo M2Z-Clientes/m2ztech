@@ -525,6 +525,25 @@ html.capture .mq-in{animation:none}
 @container site (max-width:680px){ .pd-fatos li:last-child:nth-child(odd){grid-column:span 2} }
 .site.dir-b .ps-tree{fill:#4E6B45} .site.dir-b .ps-h3{fill:#3F5A3A} .site.dir-b{--ps-sun:#EAC99A}
 .site.wf .ps-tree,.site.wf .ps-h3{fill:#8A8A8A} .site.wf{--ps-sky:#E2E2E2;--ps-sun:#CFCFCF}
+/* melhorias v2 */
+.emp-meta{font-size:14px;color:var(--ink-2);margin:-8px 0 16px;padding:8px 10px;background:var(--bg-2);border-radius:8px}
+.site.play .hero .ae-lot{animation:lotIn .7s cubic-bezier(.2,.7,.2,1) both}
+@keyframes lotIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.pd-cond{background:var(--bg)}
+.cond-grid{display:grid;grid-template-columns:repeat(3,1fr) 1.4fr;gap:16px}
+.cond{display:flex;flex-direction:column;gap:8px;padding:26px 22px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg)}
+.cond .ico{width:44px;height:44px;padding:10px;border-radius:12px;background:var(--acc-soft);color:var(--acc-text);margin-bottom:6px}
+.cond small{font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-size:12px} .cond b{font-size:17px}
+.cond.cta{background:var(--pri);border-color:var(--pri);color:#fff;justify-content:center} .cond.cta b{font:400 24px/1.2 var(--f-title);color:#fff} .cond.cta p{color:rgba(255,255,255,.82);font-size:15px;margin:0 0 8px} .cond.cta .btn{align-self:flex-start}
+.gal-s,.mo{cursor:zoom-in} .gal-s:focus-visible,.mo:focus-visible{outline:3px solid var(--acc);outline-offset:-3px}
+.lb{position:fixed;inset:0;z-index:130;background:rgba(8,12,10,.92);display:grid;grid-template-columns:72px 1fr 72px;align-items:center;padding:56px 16px;animation:pagein .2s both}
+.lb-f{margin:0;position:relative;width:100%;max-height:100%;aspect-ratio:4/3;max-width:1100px;justify-self:center;border-radius:12px;overflow:hidden}
+.lb-b,.lb-x{width:52px;height:52px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#fff;display:grid;place-items:center;cursor:pointer;justify-self:center}
+.lb-b:hover,.lb-x:hover{background:#fff;color:#111}
+.lb-x{position:absolute;top:14px;right:14px}
+.lb-c{position:absolute;bottom:18px;left:0;right:0;text-align:center;color:#fff;font-weight:700;font-size:14px}
+@container site (max-width:1024px){ .cond-grid{grid-template-columns:1fr 1fr} }
+@container site (max-width:680px){ .cond-grid{grid-template-columns:1fr} .lb{grid-template-columns:1fr;padding:64px 8px} .lb-b{position:absolute;bottom:8px} .lb-b.p{left:16px} .lb-b.n{right:16px} .lb-c{bottom:24px} }
 
 /* =========================================================
    PALCO, APARELHO E CAMADA DE APRESENTAÇÃO
@@ -719,6 +738,7 @@ html:not(.client-mode) .site .mbar{bottom:60px}
 .jr-c.dest{background:#16261F;border-color:#16261F} .jr-c.dest b{color:#F4F1EA} .jr-c.dest span{color:#C9D2CB} .jr-c.dest small{color:#E8B48C}
 .jr-arrow{display:grid;place-items:center;font:600 22px Manrope,sans-serif;color:#B08D57}
 .intro-logo svg{height:56px;width:auto;color:#F4F1EA}
+.pb-lab{font-size:12px;font-weight:700;color:#C9D2CB;padding:0 4px 0 8px;align-self:center}
 
 </style>
 </head>
@@ -934,7 +954,7 @@ const logoZ = () => `<svg viewBox="0 0 196 44" role="img" aria-label="Zarzur Urb
   <text x="57" y="36" font-family="Manrope,Arial,sans-serif" font-weight="600" font-size="9.5" letter-spacing="4.6" fill="currentColor" opacity=".75">URBANISMO</text></svg>`;
 
 /* ---------- Ilustrações no lugar das fotos (a Zarzur envia as reais) ---------- */
-function aerial(seed=1, tag='Foto aérea do empreendimento'){
+function aerial(seed=1, tag='Foto aérea do empreendimento', anim=false){
   let s = seed * 9301 + 49297; const rnd = () => (s = (s * 9301 + 49297) % 233280) / 233280;
   const W = 640, H = 420, rows = 7, cols = 11, cw = W / cols, rh = H / rows; let lots = '';
   const ra = 2 + seed % 3, ca = 4 + seed % 4;
@@ -944,7 +964,7 @@ function aerial(seed=1, tag='Foto aérea do empreendimento'){
     const park = (r <= 1 && c >= 8) || (r >= 5 && c <= 1 && seed % 2);
     if (park){ lots += `<rect x="${x+3}" y="${y+3}" width="${cw-6}" height="${rh-6}" rx="6" class="ae-park"/>`; if (rnd() > .3) lots += `<circle cx="${x+cw/2}" cy="${y+rh/2}" r="${6+rnd()*6}" class="ae-tree"/>`; continue; }
     const n = rnd() > .5 ? 2 : 3;
-    for (let k = 0; k < n; k++) lots += `<rect x="${x+4+k*(cw-8)/n}" y="${y+4}" width="${(cw-8)/n-2}" height="${rh-8}" class="ae-lot ${rnd()>.8?'sold':''}"/>`;
+    for (let k = 0; k < n; k++) lots += `<rect x="${x+4+k*(cw-8)/n}" y="${y+4}" width="${(cw-8)/n-2}" height="${rh-8}" class="ae-lot ${rnd()>.8?'sold':''}" ${anim ? `style="animation-delay:${Math.round(300 + (c*90 + r*60) + rnd()*200)}ms"` : ''}/>`;
   }
   const lake = seed % 3 === 0 ? `<ellipse cx="${80+rnd()*60}" cy="330" rx="70" ry="34" class="ae-lake"/>` : '';
   return `<svg class="aerial" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ilustração no lugar da foto aérea">
@@ -1007,20 +1027,22 @@ function footer(){
 const waFloat = () => `<a href="${CONFIG.waLai}" class="wa-float" aria-label="Falar com a Zarzur pelo WhatsApp" data-ext="lai" data-pin="wa">${icWa()}</a>`;
 
 /* ---------- Blocos reutilizados ---------- */
+const meta = e => { const f = e.fatos && e.fatos[0]; const t = !disp(e) ? [e.ano && 'Lançado em ' + e.ano, e.un && e.un.toLocaleString('pt-BR') + ' unidades'].filter(Boolean).join(' · ') : f ? `${f[1]} ${f[2]}` + (e.fatos[1] ? ` · ${e.fatos[1][2]} ${e.fatos[1][1].toLowerCase()}` : '') : { 'Lista de espera':'Cadastre-se antes do lançamento', 'Lançamento':'Condições de lançamento', 'Pronto para construir':'Infraestrutura pronta para a sua obra' }[e.status];
+  return t ? `<p class="emp-meta">${t}</p>` : ''; };
 const badge = e => `<span class="fase ${e.status==='100% vendido'?'sold':''}">${e.status}</span>`;
 const card = e => { const c = conc(e.conceito); return `<article class="emp rv" data-emp="${e.id}">
   <a class="emp-btn" href="#e/${e.id}">
     <div class="emp-media">${midia(e, '', e.seed % 3 === 0 ? 1 : 0)}${badge(e)}</div>
     <div class="emp-body"><span class="emp-conc" style="--cc:${c.cor}">${cNome(e.conceito)} · ${c.tipo}</span><h3>${e.nome}</h3>
-      <p class="emp-loc">${ic('pin')} ${loc(e)}</p><span class="emp-more">${disp(e) ? 'Conhecer o empreendimento' : 'Ver o projeto entregue'} ${ic('seta')}</span></div>
+      <p class="emp-loc">${ic('pin')} ${loc(e)}</p>${meta(e)}<span class="emp-more">${disp(e) ? 'Conhecer o empreendimento' : 'Ver o projeto entregue'} ${ic('seta')}</span></div>
   </a></article>`; };
 let FILTRO = { conceito:'', cidade:'', status:'disp' };
 const cidades = () => [...new Set(ativos().map(e => e.cidade))].sort((a,b) => a.localeCompare(b));
-function busca(){
+function busca(cat=false){
   const sel = (id, lab, opts, val) => `<label class="fsel"><span>${lab}</span><select id="${id}" data-f>${opts.map(([v,t])=>`<option value="${v}" ${v===val?'selected':''}>${t}</option>`).join('')}</select></label>`;
   return `<form class="busca" data-busca role="search" aria-label="Buscar empreendimentos" data-pin="filtros">
     ${sel('f-cidade','Cidade', [['','Todas']].concat(cidades().map(c => [c, c])), FILTRO.cidade)}
-    ${sel('f-conceito','Conceito', [['','Todos']].concat(CONCEITOS.map(c => [c.k, cNome(c.k)])), FILTRO.conceito)}
+    ${cat ? '' : sel('f-conceito','Conceito', [['','Todos']].concat(CONCEITOS.map(c => [c.k, cNome(c.k)])), FILTRO.conceito)}
     ${sel('f-status','Status', [['disp','Disponíveis'],['vend','100% vendidos'],['','Todos']], FILTRO.status)}
     <button class="btn btn-primary" type="submit">${ic('lupa')} Buscar</button></form>`;
 }
@@ -1036,7 +1058,7 @@ const marcos = ['jan 1927','jun 1960','jan 1979','mai 2005','jul 2008','set 2011
 const P = {};
 
 P.home = () => { const dest = ativos().filter(e => disp(e) && e.destaque).slice(0,6); const vend = ativos().filter(e => !disp(e)); return `
-  <section class="hero" data-pin="hero"><div class="hero-media">${aerial(9,'Foto aérea · a Zarzur envia')}</div><div class="hero-shade"></div>
+  <section class="hero" data-pin="hero"><div class="hero-media">${aerial(9,'Foto aérea · a Zarzur envia',true)}</div><div class="hero-shade"></div>
     <div class="container hero-in">
       <div class="hero-copy rv">${kicker('Desde 1927', true)}<h1 class="h1" data-txt="heroT">${TXT.heroT}</h1>
         <p class="lead" data-txt="heroS">${TXT.heroS}</p></div>
@@ -1106,7 +1128,7 @@ P.empreendimentos = () => `
   <section class="phero"><div class="container">${kicker('Empreendimentos')}<h1 class="h1">Encontre o seu lugar no interior de SP.</h1>
     <p class="lead">Cada empreendimento tem a sua página, com fotos, lazer, localização e condições.</p>
     <div class="cat-tabs" role="tablist" aria-label="Conceitos" data-pin="categorias">${[['','Todos']].concat(CONCEITOS.map(c=>[c.k,cNome(c.k)])).map(([k,t])=>`<button role="tab" data-cat="${k}" aria-selected="${FILTRO.conceito===k}">${t}</button>`).join('')}</div>
-    ${busca()}</div></section>
+    ${busca(true)}</div></section>
   <section class="section tight"><div class="container">
     <p class="result-count" id="rcount" role="status" aria-live="polite"></p>
     <div class="emp-grid" id="emp-list"></div>
@@ -1232,6 +1254,10 @@ const sticky = (e, d) => `<div class="pd-sticky" data-pin="sticky"><a href="${CO
 const crumbs = e => `<nav class="crumbs" aria-label="Você está em"><div class="container"><a href="#empreendimentos">Empreendimentos</a>${ic('chev')}<a href="#empreendimentos--c-${e.conceito}">${cNome(e.conceito)}</a>${ic('chev')}<span aria-current="page">${e.nome}</span></div></nav>`;
 const soldBar = (e, d) => d.v ? `<div class="sold-bar"><div class="container">${ic('check')}<span><b>100% vendido.</b> Veja os empreendimentos disponíveis ou entre na lista de espera.</span><a href="#empreendimentos">Ver disponíveis ${ic('seta')}</a></div></div>` : '';
 
+const condicoes = e => `<section class="section pd-cond" id="condicoes" data-pin="condicoes"><div class="container">
+  <div class="sec-head rv">${kicker('Condições')}<h2 class="h2">Parcelas que cabem no seu plano.</h2></div>
+  <div class="cond-grid">${[['boleto','Entrada','[Entrada facilitada · a validar]'],['calendario','Parcelamento','[Parcelas direto com a Zarzur · a validar]'],['casa','Construção','[Libera a obra após o contrato · a validar]']].map(([i,k,v])=>`<div class="cond rv">${ic(i)}<small>${k}</small><b>${fmtAv(v)}</b></div>`).join('')}
+    <div class="cond cta rv"><b>Quer saber o valor da sua parcela?</b><p>O consultor simula pelo WhatsApp em poucos minutos.</p><a href="${CONFIG.waLai}" class="btn btn-light" data-ext="simula">${icWa()} Simular minhas parcelas</a></div></div></div></section>`;
 /* Modelo 1 · Bairro (VemViver): direto, formulário na primeira dobra, como a LP atual, só que melhor */
 function lpBairro(e, d){
   return `${crumbs(e)}${soldBar(e,d)}
@@ -1248,6 +1274,7 @@ function lpBairro(e, d){
       <a href="#e/${e.id}--form" class="btn btn-primary">${d.v ? 'Entrar na lista de espera' : 'Garantir condições especiais'} ${ic('seta')}</a></div>
   </div></section>
   <section class="section bg-2" id="lazer"><div class="container">${kicker('Lazer')}<h2 class="h2">Lazer dentro do bairro.</h2>${lazerHTML(d)}</div></section>
+  ${d.v ? '' : condicoes(e)}
   <section class="section" id="galeria"><div class="container"><div class="sec-head rv">${kicker('Galeria')}<h2 class="h2">Infraestrutura e evolução de obra.</h2></div>${galeria(e)}</div></section>
   ${local(e,d)}
   <section class="section bg-2"><div class="container two top">
@@ -1419,7 +1446,16 @@ function render(){
   else { SCROLLER.scrollTop = 0; if (cap) window.scrollTo(0,0); }
   Proto.onRoute(r, pg);
 }
-function closeOverlays(){ $$('.mnav.open').forEach(m => m.classList.remove('open')); }
+function lightbox(slides, i){
+  const last = document.activeElement, lb = document.createElement('div'); lb.className = 'lb'; lb.setAttribute('role','dialog'); lb.setAttribute('aria-modal','true'); lb.setAttribute('aria-label','Galeria ampliada');
+  const draw = () => { lb.innerHTML = `<button class="lb-x" aria-label="Fechar">${ic('x')}</button><button class="lb-b p" aria-label="Foto anterior">${ic('setaE')}</button><figure class="lb-f">${slides[i]}</figure><button class="lb-b n" aria-label="Próxima foto">${ic('seta')}</button><span class="lb-c">${i+1} / ${slides.length}</span>`; $('.lb-x', lb).focus(); };
+  const go = d => { i = (i + d + slides.length) % slides.length; draw(); };
+  const close = () => { lb.remove(); last?.focus(); };
+  lb.addEventListener('click', ev => { if (ev.target === lb || ev.target.closest('.lb-x')) close(); else if (ev.target.closest('.lb-b.p')) go(-1); else if (ev.target.closest('.lb-b.n')) go(1); });
+  lb.addEventListener('keydown', ev => { if (ev.key === 'Escape') close(); if (ev.key === 'ArrowLeft') go(-1); if (ev.key === 'ArrowRight') go(1); });
+  $('#site').appendChild(lb); draw();
+}
+function closeOverlays(){ $$('.lb').forEach(l => l.remove()); $$('.mnav.open').forEach(m => m.classList.remove('open')); }
 function toast(m){ const t = $('#toast'); if(!t) return; t.textContent = m; t.classList.add('show'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 3800); }
 function toastLink(m, href, lab){ const t = $('#toast'); if(!t) return; t.innerHTML = `${m} <a href="${href}">${lab} →</a>`; t.classList.add('show','link'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show','link'), 6000); }
 const EXT = {
@@ -1427,6 +1463,7 @@ const EXT = {
   boleto:'No site final, abre o WhatsApp da 2ª via do boleto.',
   visita:'No site final, abre o WhatsApp já com a mensagem de agendamento de visita para este empreendimento.',
   maps:'No site final, abre a rota no Google Maps.',
+  simula:'No site final, abre o WhatsApp com a mensagem de simulação já preenchida com o nome do empreendimento.',
   video:'No site final, toca o vídeo do empreendimento (YouTube) sem sair da página.',
   social:'No site final, abre a rede social da Zarzur.'
 };
@@ -1450,19 +1487,21 @@ function bind(site, r){
   $$('a[href="#empreendimentos"]', site).forEach(a => a.addEventListener('click', () => { FILTRO = { conceito:'', cidade:'', status:'disp' }; if (r === 'empreendimentos') render(); }));
   /* busca: fora do catálogo leva para Empreendimentos já filtrado; no catálogo filtra na hora */
   $$('[data-busca]', site).forEach(f => {
-    const read = () => { FILTRO = { cidade: $('#f-cidade', f).value, conceito: $('#f-conceito', f).value, status: $('#f-status', f).value }; };
+    const read = () => { FILTRO = { cidade: $('#f-cidade', f).value, conceito: $('#f-conceito', f) ? $('#f-conceito', f).value : FILTRO.conceito, status: $('#f-status', f).value }; };
     f.addEventListener('change', () => { read(); if (r === 'empreendimentos') aplicaFiltro(site); });
     f.addEventListener('submit', e => { e.preventDefault(); read(); if (r === 'empreendimentos') aplicaFiltro(site); else location.hash = '#empreendimentos'; });
   });
-  $$('[data-cat]', site).forEach(b => b.addEventListener('click', () => { FILTRO.conceito = b.dataset.cat; const s = $('#f-conceito', site); if (s) s.value = b.dataset.cat; aplicaFiltro(site); }));
-  $('[data-clear]', site)?.addEventListener('click', () => { FILTRO = { conceito:'', cidade:'', status:'' }; $('#f-cidade', site).value = ''; $('#f-conceito', site).value = ''; $('#f-status', site).value = ''; aplicaFiltro(site); });
+  $$('[data-cat]', site).forEach(b => b.addEventListener('click', () => { FILTRO.conceito = b.dataset.cat; aplicaFiltro(site); }));
+  $('[data-clear]', site)?.addEventListener('click', () => { FILTRO = { conceito:'', cidade:'', status:'' }; $('#f-cidade', site).value = ''; $('#f-status', site).value = ''; aplicaFiltro(site); });
   if (r === 'empreendimentos') aplicaFiltro(site);
   if (r === 'painel') bindCms(site);
   /* galeria em carrossel (scroll-snap + setas) */
   $$('[data-gal]', site).forEach(g => { const tr = $('.gal-track', g), n = tr.children.length, c = $('.gal-c', g);
     const idx = () => Math.round(tr.scrollLeft / tr.children[0].offsetWidth);
     $$('.gal-b', g).forEach(b => b.addEventListener('click', () => tr.scrollBy({ left: +b.dataset.dir * tr.children[0].offsetWidth, behavior:'smooth' })));
-    tr.addEventListener('scroll', () => { c.textContent = `${Math.min(n, idx() + 1)} / ${n}`; }, { passive:true }); });
+    tr.addEventListener('scroll', () => { c.textContent = `${Math.min(n, idx() + 1)} / ${n}`; }, { passive:true });
+    $$('.gal-s', g).forEach((sl, i) => { sl.tabIndex = 0; sl.setAttribute('role','button'); sl.setAttribute('aria-label', `Ampliar foto ${i+1}`); const op = () => lightbox([...tr.children].map(x => x.innerHTML), i); sl.addEventListener('click', op); sl.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' '){ ev.preventDefault(); op(); } }); }); });
+  $$('.mo', site).forEach((m, i, all) => { m.tabIndex = 0; m.setAttribute('role','button'); m.setAttribute('aria-label', `Ampliar foto ${i+1}`); m.addEventListener('click', () => lightbox(all.map(x => x.innerHTML), i)); m.addEventListener('keydown', ev => { if (ev.key === 'Enter') lightbox(all.map(x => x.innerHTML), i); }); });
   const hdr = $('#hdr', site), tl = $('#tl', site), sticky = $('.pd-sticky', site);
   const onScroll = () => { const cap = document.documentElement.classList.contains('capture'); const y = cap ? scrollY : SCROLLER.scrollTop; hdr?.classList.toggle('scrolled', y > 30);
     sticky?.classList.toggle('show', y > 500);
@@ -1519,6 +1558,7 @@ const PINS = {
   canais:{ t:'Contato por intenção', dor:'Comprador, cliente e corretor procuram coisas diferentes.', dec:'Três caminhos antes do formulário.', res:'Menos mensagem no canal errado.' },
   form:{ t:'Formulário curto ligado ao RD', dor:'Os leads hoje entram pelo RD.', dec:'Nome, e-mail, WhatsApp e interesse, com aceite LGPD.', res:'Lead no CRM com o assunto já identificado.' },
   cta:{ t:'Toda página termina em contato', dor:'O site precisa gerar demanda, não só apresentar a empresa.', dec:'Faixa final com WhatsApp e catálogo.', res:'Nenhuma página sem próximo passo.' },
+  condicoes:{ t:'Condição antes do formulário', dor:'Quem compra lote decide pela parcela. A LP atual não fala de condições.', dec:'Bloco de condições com simulação pelo WhatsApp. Valores entram quando a Zarzur validar.', res:'Responde a principal objeção antes do contato.' },
   wa:{ t:'WhatsApp a um toque', dor:'A Laí já atende pelo WhatsApp.', dec:'Botão flutuante nas páginas institucionais. Nas LPs, ele vira a barra fixa.', res:'Atendimento imediato para quem já decidiu.' }
 };
 const Proto = (() => {
@@ -1532,12 +1572,13 @@ const Proto = (() => {
       <span class="pb-page" id="pb-page"></span>
       <div class="pb-grp" role="group" aria-label="Dispositivo"><button data-dev="desktop" aria-pressed="true" title="Desktop (1)">Desktop</button><button data-dev="tablet" aria-pressed="false" title="Tablet (2)">Tablet</button><button data-dev="mobile" aria-pressed="false" title="Mobile (3)">Mobile</button></div>
       <div class="pb-grp" role="group" aria-label="Direção visual"><button data-dir="a" aria-pressed="true" title="Direção A: Terra e tradição">A</button><button data-dir="b" aria-pressed="false" title="Direção B: cores do site atual">B</button></div>
+      <div class="pb-grp" id="pb-lp" role="group" aria-label="Modelo de LP" style="display:none"><span class="pb-lab">LP:</span><button data-lpm="bairro" title="Modelo Bairro (VemViver)">Bairro</button><button data-lpm="clube" title="Modelo Clube (Vivva)">Clube</button><button data-lpm="alto" title="Modelo Alto padrão (Figueira)">Alto padrão</button></div>
       <button data-tg="wf" aria-pressed="false" title="Wireframe (W)">Wireframe</button>
-      <button data-tg="pins" aria-pressed="false" title="Decisões de UX (P)">Decisões de UX</button>
+      <button data-tg="pins" aria-pressed="false" title="Decisões de UX (P)">Decisões UX</button>
       <button data-open="jornada">Antes e depois</button>
       <button data-go-cms>Painel (CMS)</button>
-      <button data-open="mapa" title="Mapa do escopo (M)">Mapa do escopo</button>
-      <button data-open="painel">Por trás do projeto</button>
+      <button data-open="mapa" title="Mapa do escopo (M)">Escopo</button>
+      <button data-open="painel" title="Por trás do projeto">Projeto</button>
       <button data-tg="hide" class="pb-hide" title="Modo cliente (H)">Ocultar (H)</button>`;
     document.body.appendChild(b);
     const show = el('button','pbar-show','Controles'); show.id='pbar-show'; document.body.appendChild(show);
@@ -1550,6 +1591,7 @@ const Proto = (() => {
       if (t.dataset.tg === 'hide') toggleHide();
       if (t.dataset.open) openModal(t.dataset.open);
       if ('goCms' in t.dataset) location.hash = '#painel';
+      if (t.dataset.lpm){ const e = emp(location.hash.slice(3).split('--')[0]); if (e){ e.modelo = t.dataset.lpm; render(); } }
     });
     show.addEventListener('click', toggleHide);
   }
@@ -1693,6 +1735,7 @@ const Proto = (() => {
 
   function onRoute(r, pg, modalOnly){
     if (!modalOnly){ const lab = $('#pb-page'); if (lab){ const cls = {Home:'home',Institucional:'simples','Catálogo':'simples',Categorias:'simples','Landing page':'lp',CMS:'lp'}[pg.tipo] || 'apoio'; lab.className = 'pb-page ' + cls; lab.textContent = pg.tipo; } }
+    const lpg = $('#pb-lp'); if (lpg){ const e = r.startsWith('e/') && emp(r.slice(2)); lpg.style.display = e ? '' : 'none'; if (e) press('[data-lpm]', b => b.dataset.lpm === modeloDe(e)); }
     $$('.upop').forEach(p => p.remove());
     if (state.pins) setTimeout(placePins, 60);
   }
