@@ -1571,7 +1571,7 @@ const Proto = (() => {
     b.innerHTML = `
       <span class="pb-page" id="pb-page"></span>
       <div class="pb-grp" role="group" aria-label="Dispositivo"><button data-dev="desktop" aria-pressed="true" title="Desktop (1)">Desktop</button><button data-dev="tablet" aria-pressed="false" title="Tablet (2)">Tablet</button><button data-dev="mobile" aria-pressed="false" title="Mobile (3)">Mobile</button></div>
-      <div class="pb-grp" role="group" aria-label="Direção visual"><button data-dir="a" aria-pressed="true" title="Direção A: Terra e tradição">A</button><button data-dir="b" aria-pressed="false" title="Direção B: cores do site atual">B</button></div>
+      <div class="pb-grp" role="group" aria-label="Direção visual"><button data-dir="a" aria-pressed="true" title="Direção A: identidade atual (vermelho Zarzur)">A</button><button data-dir="b" aria-pressed="false" title="Direção B: verde (proposta)">B</button></div>
       <div class="pb-grp" id="pb-lp" role="group" aria-label="Modelo de LP" style="display:none"><span class="pb-lab">LP:</span><button data-lpm="bairro" title="Modelo Bairro (VemViver)">Bairro</button><button data-lpm="clube" title="Modelo Clube (Vivva)">Clube</button><button data-lpm="alto" title="Modelo Alto padrão (Figueira)">Alto padrão</button></div>
       <button data-tg="wf" aria-pressed="false" title="Wireframe (W)">Wireframe</button>
       <button data-tg="pins" aria-pressed="false" title="Decisões de UX (P)">Decisões UX</button>
@@ -1597,7 +1597,7 @@ const Proto = (() => {
   }
   function press(sel, on){ document.querySelectorAll(sel).forEach(b => b.setAttribute('aria-pressed', String(on(b)))); }
   function setDevice(d){ state.device = d; html.dataset.device = d; press('[data-dev]', b => b.dataset.dev === d); fit(); if (state.pins) setTimeout(placePins, 400); }
-  function setDir(d){ state.dir = d; $('#site').classList.toggle('dir-b', d === 'b'); press('[data-dir]', b => b.dataset.dir === d); }
+  function setDir(d){ state.dir = d; $('#site').classList.toggle('dir-b', d === 'a'); press('[data-dir]', b => b.dataset.dir === d); }
   function toggleWF(){ state.wf = !state.wf; $('#site').classList.toggle('wf', state.wf); press('[data-tg=wf]', () => state.wf); }
   function togglePins(){ state.pins = !state.pins; html.classList.toggle('pins-on', state.pins); press('[data-tg=pins]', () => state.pins); if (state.pins) placePins(); else clearPins(); }
   function toggleHide(){ state.hidden = !state.hidden; html.classList.toggle('client-mode', state.hidden); }
@@ -1691,8 +1691,8 @@ const Proto = (() => {
         <li><b>Sem perder o que funciona.</b> Mesmos campos de qualificação da LP atual e leads no RD.</li>
       </ol></section>
     <section class="pt" id="pt-ds" role="tabpanel" aria-labelledby="tab-ds" hidden>
-      <p><b>Direção A · verde (proposta).</b> Verde profundo e terracota, com Gilda Display nos títulos. <b>Direção B · identidade atual:</b> vermelho Zarzur (#A9060F), grafite e Ubuntu, extraídos do site. Alterne na barra (A/B). A paleta final segue o manual de marca que o Ederson vai enviar.</p>
-      <div class="ds-sw">${[['#1E3A2F','Verde (A)'],['#B8642F','Terracota (A)'],['#A9060F','Vermelho (B)'],['#4B4F58','Grafite (B)'],['#F7F4EE','Off-white'],['#FFFFFF','Branco']].map(([c,n])=>`<div><span style="background:${c}"></span><b>${n}</b><small>${c}</small></div>`).join('')}</div>
+      <p><b>Direção A · identidade atual:</b> vermelho Zarzur (#A9060F), grafite e Ubuntu, extraídos do site. <b>Direção B · verde (proposta):</b> verde profundo e terracota, com Gilda Display nos títulos. Alterne na barra (A/B). A paleta final segue o manual de marca que o Ederson vai enviar.</p>
+      <div class="ds-sw">${[['#A9060F','Vermelho (A)'],['#4B4F58','Grafite (A)'],['#1E3A2F','Verde (B)'],['#B8642F','Terracota (B)'],['#F7F4EE','Off-white'],['#FFFFFF','Branco']].map(([c,n])=>`<div><span style="background:${c}"></span><b>${n}</b><small>${c}</small></div>`).join('')}</div>
       <p class="pm-note">Cada conceito mantém a sua cor de apoio nas LPs (VemViver verde, Vivva terra, Figueira oliva). Fotos e vídeos reais entram no lugar das ilustrações.</p></section>
     <section class="pt" id="pt-tec" role="tabpanel" aria-labelledby="tab-tec" hidden>
       <ul class="pt-list"><li>Plataforma em <b>JavaScript + Next.js (React)</b>, sem WordPress e sem plugins</li><li><b>CMS administrativo</b>: produtos, categorias, banners, conteúdos e linha do tempo</li><li><b>Modelos de LP</b> duplicáveis: novo empreendimento sem criar página do zero</li>
@@ -1745,7 +1745,7 @@ const Proto = (() => {
     if (k === 'h') toggleHide(); else if (k === 'p') togglePins(); else if (k === 'm') openModal('mapa'); else if (k === 'w') toggleWF();
     else if (k === '1') setDevice('desktop'); else if (k === '2') setDevice('tablet'); else if (k === '3') setDevice('mobile');
   }
-  function init(){ bar(); intro(); if (!document.querySelector('.intro')) $('#site').classList.add('play'); setDevice('desktop'); addEventListener('resize', fit); addEventListener('keydown', keys); addEventListener('resize', () => { if (state.pins) placePins(); }); }
+  function init(){ bar(); intro(); if (!document.querySelector('.intro')) $('#site').classList.add('play'); setDevice('desktop'); setDir('a'); addEventListener('resize', fit); addEventListener('keydown', keys); addEventListener('resize', () => { if (state.pins) placePins(); }); }
   return { init, onRoute, setDevice, setDir, toggleWF, togglePins, openModal, closeModal };
 })();
 
