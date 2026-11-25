@@ -36,7 +36,7 @@
 .site.dir-b{
   --bg:#FFFFFF; --bg-2:#F4F4F5; --card:#FFFFFF; --line:#E2E3E6; --line-2:#9EA3AB;
   --ink:#2A2D33; --ink-2:#4B4F58; --muted:#69727D;
-  --pri:#A9060F; --pri-h:#8A050C; --acc:#A9060F; --acc-text:#A9060F; --acc-soft:#FBE7E8;
+  --pri:#2A2D33; --pri-h:#3A3E46; --acc:#6B7079; --acc-text:#4B4F58; --acc-soft:#EEEFF1; --red:#A9060F; --red-h:#8A050C;
   --dark:#24262B; --on-dark:#F2F2F3; --on-dark-2:#C4C7CC;
   --ae-bg:#E4E1DA; --ae-lot:#F7F5F0; --ae-sold:#D8CFC2; --ae-park:#A9C29A; --ae-tree:#7C9C6B; --ae-road:#FFFFFF; --ae-river:#9DBFCB; --ae-line:#CFC8BA;
   --f-title:'Ubuntu',Arial,sans-serif; --f-text:'Ubuntu',Arial,sans-serif;
@@ -57,7 +57,7 @@
 .bg-2{background:var(--bg-2)}
 .kicker{display:inline-flex;align-items:center;gap:12px;font:700 12px/1 var(--f-text);letter-spacing:.2em;text-transform:uppercase;color:var(--acc-text);margin-bottom:20px}
 .kicker::before{content:"";width:28px;height:2px;background:currentColor}
-.kicker.light{color:#E8B48C} .site.dir-b .kicker.light{color:#FF9A9F}
+.kicker.light{color:#E8B48C} .site.dir-b .kicker.light{color:#C4C7CC}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center} .two.top{align-items:start}
 .two.rev>:first-child{order:2}
 .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-bottom:48px;flex-wrap:wrap}
@@ -225,7 +225,7 @@ textarea.field{min-height:96px;resize:vertical}
 .ftr h4{font:700 12px var(--f-text);letter-spacing:.18em;text-transform:uppercase;color:#fff;margin:0 0 18px}
 .ftr ul{list-style:none;padding:0;margin:0;display:grid;gap:12px} .ftr a{text-decoration:none} .ftr a:hover{color:#fff;text-decoration:underline}
 .ftr .ct{display:flex;gap:10px} .ftr .ct .ico{width:18px;height:18px;color:#E8B48C;margin-top:3px}
-.site.dir-b .ftr .ct .ico{color:#FF9A9F}
+.site.dir-b .ftr .ct .ico{color:#C4C7CC}
 .soc{display:flex;gap:10px;margin-top:20px} .soc a{width:44px;height:44px;border:1px solid rgba(255,255,255,.25);border-radius:50%;display:grid;place-items:center}
 .soc .ico{width:20px;height:20px}
 .ftr .bottom{grid-column:1/-1;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.12);padding-top:24px;font-size:13px}
@@ -544,6 +544,14 @@ html.capture .mq-in{animation:none}
 .lb-c{position:absolute;bottom:18px;left:0;right:0;text-align:center;color:#fff;font-weight:700;font-size:14px}
 @container site (max-width:1024px){ .cond-grid{grid-template-columns:1fr 1fr} }
 @container site (max-width:680px){ .cond-grid{grid-template-columns:1fr} .lb{grid-template-columns:1fr;padding:64px 8px} .lb-b{position:absolute;bottom:8px} .lb-b.p{left:16px} .lb-b.n{right:16px} .lb-c{bottom:24px} }
+
+/* Direção A (identidade atual): vermelho só no essencial = logo e botões de conversão */
+.site.dir-b .hdr .logo,.site.dir-b .mnav-top .logo{color:var(--red)}
+.site.dir-b .hdr-cta,.site.dir-b [data-submit],.site.dir-b .pd-sticky .btn-primary{background:var(--red);border-color:var(--red)}
+.site.dir-b .hdr-cta:hover,.site.dir-b [data-submit]:hover,.site.dir-b .pd-sticky .btn-primary:hover{background:var(--red-h)}
+.site.dir-b .field:focus{box-shadow:0 0 0 4px #E6E7EA}
+.site.dir-b .mq-label{background:#4B4F58}
+.site.dir-b .lgpd input{accent-color:var(--red)}
 
 /* =========================================================
    PALCO, APARELHO E CAMADA DE APRESENTAÇÃO
