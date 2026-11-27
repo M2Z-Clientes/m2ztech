@@ -17,7 +17,7 @@
     --ease:cubic-bezier(.2,.7,.2,1);
   }
   * { box-sizing:border-box; margin:0; padding:0; }
-  html, body { min-height:100%; }
+  html, body { min-height:100%; overflow-x:hidden; }
   body { background:var(--bg); color:var(--ink); font:400 16px/1.6 Outfit, system-ui, sans-serif;
          -webkit-font-smoothing:antialiased; display:flex; flex-direction:column; min-height:100vh; }
   a { color:inherit; }
@@ -39,7 +39,7 @@
   .actions { display:flex; flex-wrap:wrap; align-items:center; gap:12px 24px; }
   .btn { display:inline-flex; align-items:center; gap:10px; height:48px; padding:0 20px; border-radius:10px;
          background:var(--ink); color:#fff; font-size:16px; font-weight:500; text-decoration:none;
-         box-shadow:inset 0 1px 0 rgba(255,255,255,.10); transition:background-color .2s var(--ease), transform .2s var(--ease); }
+         box-shadow:inset 0 1px 0 rgba(255,255,255,.10); transition:background-color .2s var(--ease), transform .2s var(--ease), box-shadow .2s var(--ease); }
   .btn:hover { background:#1A2D42; }
   .btn:active { transform:scale(.98); }
   .btn svg { width:18px; height:18px; }
@@ -84,9 +84,77 @@
            gap:16px; font-size:13px; color:var(--muted); border-top:1px solid var(--line); }
 
   /* Entrada única */
-  .in { animation:in .5s var(--ease) both; } .in.d2 { animation-delay:.08s; }
-  @keyframes in { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
-  @media (prefers-reduced-motion:reduce) { .in { animation:none; } * { transition:none !important; } }
+  /* ---------- Animações ----------
+     Roteiro: texto entra em cascata; na janela o site "se monta",
+     escurece e o selo de cadeado fecha (protótipo arquivado). */
+  .rise { opacity:0; animation:rise .7s var(--ease) forwards; animation-delay:calc(var(--i,0) * 90ms + 100ms); }
+  @keyframes rise { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
+  .top { animation:fade .6s var(--ease) both; }
+  footer { animation:fade .8s var(--ease) .9s both; }
+  @keyframes fade { from { opacity:0; } to { opacity:1; } }
+
+  /* ponto de status: anel que se expande algumas vezes e para */
+  .status i { position:relative; }
+  .status i::after { content:""; position:absolute; inset:0; border-radius:50%; border:1px solid var(--gold);
+                     animation:ring 2.2s var(--ease) 1.2s 3 both; }
+  @keyframes ring { 0% { opacity:.9; transform:scale(1); } 100% { opacity:0; transform:scale(2.8); } }
+
+  /* sublinhado do título desenhado da esquerda para a direita */
+  h1 em { font-style:normal; position:relative; white-space:nowrap; }
+  h1 em::after { content:""; position:absolute; left:0; right:0; bottom:.02em; height:3px; border-radius:2px;
+                 background:var(--gold); transform:scaleX(0); transform-origin:left;
+                 animation:draw .9s var(--ease) 1.1s forwards; }
+  @keyframes draw { to { transform:scaleX(1); } }
+
+  /* botão: brilho de luz que passa uma vez e ícone que acena no hover */
+  .btn { position:relative; overflow:hidden; }
+  .btn::before { content:""; position:absolute; top:0; bottom:0; left:-60%; width:40%;
+                 background:linear-gradient(100deg, transparent, rgba(255,255,255,.18), transparent);
+                 transform:skewX(-18deg); animation:sheen 1.1s var(--ease) 1.6s 1 both; pointer-events:none; }
+  @keyframes sheen { from { left:-60%; } to { left:130%; } }
+  .btn svg { transition:transform .3s var(--ease); }
+  .btn:hover svg { transform:rotate(-12deg) scale(1.08); }
+  .btn:hover { box-shadow:inset 0 1px 0 rgba(255,255,255,.10), 0 10px 24px -12px rgba(13,27,42,.55); transform:translateY(-1px); }
+
+  /* janela: entra, inclina levemente com o mouse */
+  .stage { perspective:1400px; }
+  .win { opacity:0; animation:winIn .9s var(--ease) .25s forwards; transition:transform .4s var(--ease);
+         transform-style:preserve-3d; will-change:transform; }
+  @keyframes winIn { from { opacity:0; transform:translateY(24px) rotateX(6deg); } to { opacity:1; transform:none; } }
+
+  /* site se montando: blocos crescem da esquerda, em sequência */
+  .wf b, .wf .nav span i, .wf .hero, .wf .hero i, .wf .hero u, .wf .cols div, .wf .cols div i, .wf .cols div u {
+    transform-origin:left center; animation:grow .6s var(--ease) both; animation-delay:calc(var(--d,0) * 70ms + 600ms); }
+  @keyframes grow { from { opacity:0; transform:scaleX(.2); } to { opacity:1; transform:none; } }
+  .wf .cols div { transform-origin:center bottom; animation-name:pop; }
+  @keyframes pop { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+  /* depois de montado, o site esmaece (arquivado) */
+  .wf { opacity:1; animation:dim .8s var(--ease) 2.1s forwards; }
+  @keyframes dim { to { opacity:.5; filter:saturate(.6); } }
+  /* brilho de carregamento que atravessa o hero uma vez */
+  .wf .hero { position:relative; overflow:hidden; }
+  .wf .hero::after { content:""; position:absolute; inset:0; background:linear-gradient(100deg, transparent 30%, rgba(255,255,255,.55) 50%, transparent 70%);
+                     transform:translateX(-100%); animation:scan 1.2s var(--ease) 1.4s 1 both; }
+  @keyframes scan { to { transform:translateX(100%); } }
+
+  /* selo: aparece e o cadeado fecha */
+  .lock div { opacity:0; animation:seal .6s var(--ease) 2.4s forwards; }
+  @keyframes seal { from { opacity:0; transform:translateY(10px) scale(.96); } to { opacity:1; transform:none; } }
+  .lock .shackle { transform:translateY(-3px); animation:close .35s var(--ease) 2.9s forwards; }
+  @keyframes close { to { transform:none; } }
+
+  /* endereço sendo digitado */
+  .url .typed { display:inline-block; overflow:hidden; white-space:nowrap; max-width:0; vertical-align:bottom;
+                animation:type 1.1s steps(36,end) .5s forwards; }
+  @keyframes type { to { max-width:36ch; } }
+  .url .caret { width:1px; height:14px; background:var(--muted); animation:blink 1s steps(1) 0s 3; opacity:0; }
+  @keyframes blink { 0%,49% { opacity:1; } 50%,100% { opacity:0; } }
+
+  @media (prefers-reduced-motion:reduce) {
+    *, *::before, *::after { animation:none !important; transition:none !important; }
+    .rise, .win, .lock div { opacity:1; } .wf { opacity:.5; } .url .typed { max-width:none; } .lock .shackle { transform:none; }
+    h1 em::after { transform:scaleX(1); }
+  }
 
   @media (max-width:880px) {
     .top { padding:0 20px; height:56px; }
@@ -112,40 +180,40 @@
 </header>
 
 <main>
-  <section class="in">
-    <p class="status"><i aria-hidden="true"></i>Azus Engenharia · Novo site</p>
-    <h1>Este protótipo foi arquivado</h1>
-    <p class="lead">Ele mostra, na prática, como vai ficar o novo site da Azus Engenharia. Fale com a equipe M2Z para liberar o acesso de novo e, se quiser, marcamos uma apresentação rápida com quem vai decidir.</p>
-    <div class="actions">
+  <section>
+    <p class="status rise" style="--i:0"><i aria-hidden="true"></i>Azus Engenharia · Novo site</p>
+    <h1 class="rise" style="--i:1">Este protótipo foi <em>arquivado</em></h1>
+    <p class="lead rise" style="--i:2">Ele mostra, na prática, como vai ficar o novo site da Azus Engenharia. Fale com a equipe M2Z para liberar o acesso de novo e, se quiser, marcamos uma apresentação rápida com quem vai decidir.</p>
+    <div class="actions rise" style="--i:3">
       <a class="btn" href="https://wa.me/5541995465095?text=Ol%C3%A1%2C%20equipe%20M2Z.%20Sou%20da%20Azus%20Engenharia%20e%20quero%20voltar%20a%20acessar%20o%20prot%C3%B3tipo%20do%20novo%20site." target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
         Pedir acesso pelo WhatsApp
       </a>
       <a class="alt" href="mailto:contato@m2z.com.br?subject=Acesso%20ao%20prot%C3%B3tipo%20%7C%20Azus%20Engenharia">contato@m2z.com.br</a>
     </div>
-    <p class="meta">WhatsApp comercial (41) 99546-5095</p>
+    <p class="meta rise" style="--i:4">WhatsApp comercial (41) 99546-5095</p>
   </section>
 
-  <div class="win in d2" aria-hidden="true">
+  <div class="stage"><div class="win" aria-hidden="true">
     <div class="bar">
       <span class="dots"><i></i><i></i><i></i></span>
       <span class="url">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
-        m2z-clientes.github.io/m2ztech/azus
+        <span class="typed">m2z-clientes.github.io/m2ztech/azus</span><i class="caret"></i>
       </span>
     </div>
     <div class="page">
       <div class="wf">
-        <div class="nav"><b></b><span><i></i><i></i><i></i><i></i></span></div>
-        <div class="hero"><i></i><i></i><u></u></div>
-        <div class="cols"><div><i></i><u></u></div><div><i></i><u></u></div><div><i></i><u></u></div></div>
+        <div class="nav"><b style="--d:0"></b><span><i style="--d:1"></i><i style="--d:2"></i><i style="--d:3"></i><i style="--d:4"></i></span></div>
+        <div class="hero" style="--d:2"><i style="--d:4"></i><i style="--d:5"></i><u style="--d:6"></u></div>
+        <div class="cols"><div style="--d:7"><i style="--d:9"></i><u style="--d:10"></u></div><div style="--d:8"><i style="--d:10"></i><u style="--d:11"></u></div><div style="--d:9"><i style="--d:11"></i><u style="--d:12"></u></div></div>
       </div>
       <div class="lock"><div>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path class="shackle" d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
         <span><b>Disponível sob solicitação</b><small>Protótipo arquivado pela M2Z</small></span>
       </div></div>
     </div>
-  </div>
+  </div></div>
 </main>
 
 <footer>
@@ -153,5 +221,23 @@
   <span>Curitiba, PR</span>
 </footer>
 
+<script>
+/* Inclinação suave da janela acompanhando o mouse (só desktop, respeita reduzir movimento) */
+(() => {
+  const win = document.querySelector('.win'), stage = document.querySelector('.stage');
+  if (!win || matchMedia('(prefers-reduced-motion: reduce)').matches || !matchMedia('(pointer:fine)').matches) return;
+  win.addEventListener('animationend', e => { if (e.animationName === 'winIn') { win.style.opacity = 1; win.style.animation = 'none'; } });
+  let raf;
+  document.addEventListener('mousemove', e => {
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => {
+      const r = stage.getBoundingClientRect();
+      const x = (e.clientX - (r.left + r.width / 2)) / innerWidth, y = (e.clientY - (r.top + r.height / 2)) / innerHeight;
+      win.style.transform = `rotateY(${(x * 6).toFixed(2)}deg) rotateX(${(-y * 5).toFixed(2)}deg)`;
+    });
+  });
+  document.addEventListener('mouseleave', () => { win.style.transform = ''; });
+})();
+</script>
 </body>
 </html>
